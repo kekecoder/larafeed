@@ -17,7 +17,7 @@ class FeedFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'description' => fake()->text(300)
         ];
     }
 }

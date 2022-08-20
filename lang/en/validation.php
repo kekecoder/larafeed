@@ -150,8 +150,9 @@ return [
     */
 
     'custom' => [
-        'attribute-name' => [
-            'rule-name' => 'custom-message',
+        'description' => [
+            'required' => 'Story field is required',
+            'max' => 'Story cannot be more than 280 characters'
         ],
     ],
 

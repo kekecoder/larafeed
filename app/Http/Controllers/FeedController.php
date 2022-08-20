@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreFeedRequest;
 use App\Models\Feed;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,9 @@ class FeedController extends Controller
      */
     public function index()
     {
-        //
+        return view('feeds.index', [
+            'feeds' => Feed::latest()->paginate(10)
+        ]);
     }
 
     /**
@@ -30,12 +33,17 @@ class FeedController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\StoreFeedRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreFeedRequest $request)
     {
-        //
+        // $validated = $request->validated();
+        $valid = new Feed();
+        $valid->description = $request['description'];
+        $valid->save();
+
+        return redirect('/feeds')->with('success', "Story added successfully");
     }
 
     /**
@@ -44,9 +52,12 @@ class FeedController extends Controller
      * @param  \App\Models\Feed  $feed
      * @return \Illuminate\Http\Response
      */
-    public function show(Feed $feed)
+    public function show($feed)
     {
         //
+        return view('feeds.feed', [
+            'feed' => Feed::findOrFail($feed)
+        ]);
     }
 
     /**
@@ -78,8 +89,12 @@ class FeedController extends Controller
      * @param  \App\Models\Feed  $feed
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Feed $feed)
+    public function destroy($feed)
     {
         //
+        $feed = Feed::findOrFail($feed);
+        $feed->delete();
+
+        return redirect('/feeds')->with('delete', 'Story Deleted');
     }
 }
