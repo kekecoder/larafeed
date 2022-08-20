@@ -15,6 +15,8 @@
     </style>
 </head>
 <body>
-    @yield('content')
+    <div class="bg-gray-100">
+        @yield('content')
+    </div>
 </body>
 </html>
