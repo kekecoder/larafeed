@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('feeds', function (Blueprint $table) {
             $table->id();
             $table->longText('description');
+            $table->string('upload_img')->nullable();
             $table->timestamps();
         });
     }

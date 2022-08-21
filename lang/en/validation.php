@@ -154,6 +154,10 @@ return [
             'required' => 'Story field is required',
             'max' => 'Story cannot be more than 280 characters'
         ],
+        'upload_img' => [
+            'image' => 'This file must be an image',
+            'max' => 'The image must not exceed 2MB'
+        ]
     ],
 
     /*

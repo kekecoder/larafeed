@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreFeedRequest;
 use App\Models\Feed;
 use Illuminate\Http\Request;
 
@@ -36,11 +35,22 @@ class FeedController extends Controller
      * @param  \Illuminate\Http\StoreFeedRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreFeedRequest $request)
+    public function store(Request $request)
     {
-        // $validated = $request->validated();
+        $this->validate($request, [
+            'description' => 'required|max:280',
+            'upload_img' => 'image|mimes:png,jpg,jpeg,gif,svh|max:2048'
+        ]);
+
+        if (!$request->file('upload_img')) {
+            $path = null;
+        } else {
+            $path = $request->file('upload_img')->store('upload_img', 'public');
+        }
+
         $valid = new Feed();
         $valid->description = $request['description'];
+        $valid->upload_img = $path;
         $valid->save();
 
         return redirect('/feeds')->with('success', "Story added successfully");
