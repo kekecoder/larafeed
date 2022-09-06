@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\FeedController;
+use App\Http\Controllers\UserController;
 use App\Models\Feed;
 use Illuminate\Support\Facades\Route;
 
@@ -16,3 +17,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::resource('feeds', FeedController::class);
+Route::get('/register', [UserController::class, 'register']);
+Route::post('/register', [UserController::class, 'save']);
+Route::get('/login', [UserController::class, 'login']);
+Route::post('/login', [UserController::class, 'login_user']);
+Route::post('/logout', [UserController::class, 'logout']);

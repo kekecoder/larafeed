@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .is-invalid {
+        @apply border-2 border-rose-700 focus:border-rose-700;
+    }
+}
