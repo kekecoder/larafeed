@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\FeedController;
 use App\Http\Controllers\UserController;
 use App\Models\Feed;
@@ -16,9 +17,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('feeds', FeedController::class);
+Route::resource('feeds', FeedController::class)->middleware('auth');
 Route::get('/register', [UserController::class, 'register']);
 Route::post('/register', [UserController::class, 'save']);
-Route::get('/login', [UserController::class, 'login']);
+Route::get('/login', [UserController::class, 'login'])->name('login');
 Route::post('/login', [UserController::class, 'login_user']);
 Route::post('/logout', [UserController::class, 'logout']);
+Route::post('/comment', [CommentsController::class, 'comment']);

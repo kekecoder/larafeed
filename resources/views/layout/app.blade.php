@@ -19,11 +19,15 @@
                     <li class="pl-3 pr-3 border-2 border-indigo-600 hover:bg-indigo-400 hover:text-white rounded-lg mr-2 uppercase"><a href="{{ url('/login') }}">login</a></li>
                 @endguest
                 @auth
-                    <li class="pl-3 pr-3 border-2 border-indigo-600 hover:bg-indigo-400 hover:text-white rounded-lg mr-2 uppercase"><a href="{{ url('/feeds') }}"> home</a></li>
-                    <li class="pl-3 pr-3 border-2 border-indigo-600 hover:bg-indigo-400 hover:text-white rounded-lg mr-2 uppercase">profile</li>
+                    <li class="pl-3 pr-3 border-2 border-indigo-600 hover:bg-indigo-400 hover:text-white rounded-lg mr-2 capitalize"><a href="{{ url('/feeds') }}"> home</a></li>
+                    <li class="pl-3 pr-3 border-2 border-indigo-600 hover:bg-indigo-400 hover:text-white rounded-lg mr-2 capitalize">
+                        @if (Auth::check())
+                            {{ Auth::user()->name }}
+                        @endif
+                    </li>
                     <form action="{{ url('/logout') }}" method="post">
                         @csrf
-                        <button class="pl-3 pr-3 border-2 border-rose-600 text-rose-700 rounded-lg mr-2 uppercase">Logout</button>
+                        <button class="pl-3 pr-3 border-2 border-rose-600 text-rose-700 rounded-lg mr-2 capitalize">Logout</button>
                     </form> 
                 @endauth
             </ul>

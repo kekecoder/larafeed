@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Feed;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class FeedController extends Controller
@@ -15,7 +16,7 @@ class FeedController extends Controller
     public function index()
     {
         return view('feeds.index', [
-            'feeds' => Feed::latest()->paginate(10)
+            'feeds' => Feed::with('user:id,name')->latest()->paginate()
         ]);
     }
 
@@ -39,7 +40,7 @@ class FeedController extends Controller
     {
         $this->validate($request, [
             'description' => 'required|max:280',
-            'upload_img' => 'image|mimes:png,jpg,jpeg,gif,svh|max:2048'
+            'upload_img' => 'image|mimes:png,jpg,jpeg,gif,svg|max:2048'
         ]);
 
         if (!$request->file('upload_img')) {
@@ -51,7 +52,9 @@ class FeedController extends Controller
         $valid = new Feed();
         $valid->description = $request['description'];
         $valid->upload_img = $path;
-        $valid->save();
+
+        $request->user()->feeds()->save($valid);
+
 
         return redirect('/feeds')->with('success', "Story added successfully");
     }
@@ -62,12 +65,11 @@ class FeedController extends Controller
      * @param  \App\Models\Feed  $feed
      * @return \Illuminate\Http\Response
      */
-    public function show($feed)
+    public function show(Feed $feed)
     {
         //
-        return view('feeds.feed', [
-            'feed' => Feed::findOrFail($feed)
-        ]);
+        // dd($feed);
+        return view('feeds.feed', compact('feed'));
     }
 
     /**
@@ -102,8 +104,10 @@ class FeedController extends Controller
     public function destroy($feed)
     {
         //
+
         $feed = Feed::findOrFail($feed);
         $feed->delete();
+
 
         return redirect('/feeds')->with('delete', 'Story Deleted');
     }

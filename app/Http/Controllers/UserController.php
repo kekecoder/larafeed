@@ -29,6 +29,8 @@ class UserController extends Controller
 
         $user->save();
 
+        Auth::login($user);
+
         return redirect('/feeds')->with('register', 'Registration successful');
     }
 
